@@ -22,12 +22,8 @@ public class Library extends AbstractEntity {
     private User user;
 
 
-    //todo change to one array
-    @OneToMany(mappedBy = "origin")
+    @OneToMany(mappedBy = "library")
     private List<Book> myBooks;
-
-    @OneToMany(mappedBy = "current")
-    private List<Book> borrowedBooks;
 
     public Integer getBorrowingPeriod() {
         return borrowingPeriod;
@@ -75,29 +71,5 @@ public class Library extends AbstractEntity {
             return;
         }
         myBooks.removeIf(t -> Objects.equals(t.getId(), book.getId()));
-    }
-
-    public List<Book> getBorrowedBooks() {
-        return borrowedBooks;
-    }
-
-    public void setBorrowedBooks(List<Book> books) {
-        this.borrowedBooks = books;
-    }
-
-    public void addBorrowedBook(Book book){
-        Objects.requireNonNull(book);
-        if (borrowedBooks == null) {
-            this.borrowedBooks = new ArrayList<>();
-        }
-        borrowedBooks.add(book);
-    }
-
-    public void removeBorrowedBook(Book book){
-        Objects.requireNonNull(book);
-        if (borrowedBooks == null) {
-            return;
-        }
-        borrowedBooks.removeIf(t -> Objects.equals(t.getId(), book.getId()));
     }
 }

@@ -1,3 +1,5 @@
+DB name: mydb
+localhost:3306/mydb
+
 root: root
-user: ear
 password: Qwerty1234$

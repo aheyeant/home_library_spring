@@ -28,18 +28,17 @@ public class Book extends AbstractEntity{
 
     private Date availableFrom;
 
-    //todo
     @ManyToOne
-    private Library current;
-
-    @ManyToOne
-    private Library origin;
+    private Library library;
 
     @ManyToMany
     private List<Tag> tags;
 
     @OneToMany(mappedBy = "book")
     private List<BookRent> rents;
+
+
+    public Book() {}
 
     public String getTitle() {
         return title;
@@ -65,23 +64,12 @@ public class Book extends AbstractEntity{
         this.ISBN = ISBN;
     }
 
-    public Library getCurrent() {
-        return current;
+    public Library getLibrary() {
+        return library;
     }
 
-    public void setCurrent(Library current) {
-        this.current = current;
-    }
-
-    public Library getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(Library origin) {
-        this.origin = origin;
-    }
-
-    public Book() {
+    public void setLibrary(Library library) {
+        this.library = library;
     }
 
     public Boolean getAvailable() {

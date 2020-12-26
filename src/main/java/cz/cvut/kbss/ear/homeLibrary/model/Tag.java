@@ -14,7 +14,6 @@ public class Tag extends AbstractEntity {
 
 
 
-
     // todo
     @ManyToMany(mappedBy = "tags")
     private List<Book> books;
