@@ -1,0 +1,3 @@
+root: root
+user: ear
+password: Qwerty1234$

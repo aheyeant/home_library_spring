@@ -6,11 +6,17 @@ import java.util.Date;
 @Entity
 public class Message extends AbstractEntity {
     @Basic(optional = false)
-    private Date timeStamp;
+    @Column(nullable = false)
+    private Date timeStamp;   // in mySQL: format "YYYY-MM-DD HH:MM:SS"
 
     @Basic(optional = false)
-    private String text;
+    @Column(nullable = false)
+    private String text;     // in mySQL: TEXT(1000), max 1000 chars
 
+
+
+
+    //todo
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 

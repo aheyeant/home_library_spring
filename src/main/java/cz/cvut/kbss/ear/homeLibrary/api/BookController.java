@@ -20,11 +20,13 @@ public class BookController {
         this.service = service;
     }
 
+    //public
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<Book> getBooks(){
         return service.findAll();
     }
 
+    //public
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Book getBook(@PathVariable("id") Integer id ){
         return service.get(id);

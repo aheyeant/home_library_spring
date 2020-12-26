@@ -13,23 +13,27 @@ import java.util.function.Supplier;
 @Table(name="books")
 public class Book extends AbstractEntity{
     @Basic(optional = false)
+    @Column(nullable = false)
     private String title;
 
     @Basic(optional = false)
+    @Column(nullable = false)
     private String author;
-    @Basic
+
     private String ISBN;
 
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private Boolean available;
+
+    private Date availableFrom;
+
+    //todo
     @ManyToOne
     private Library current;
 
     @ManyToOne
     private Library origin;
-
-    @Basic
-    private Boolean available;
-    @Basic
-    private Date availableFrom;
 
     @ManyToMany
     private List<Tag> tags;

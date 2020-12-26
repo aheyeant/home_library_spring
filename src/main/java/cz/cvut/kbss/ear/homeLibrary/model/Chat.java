@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name="chat")
 public class Chat extends AbstractEntity {
+    @Basic(optional = false)
     @Column(nullable = false)
     private String title;
 

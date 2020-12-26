@@ -5,13 +5,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
+@Table(name="bookrent")
 public class BookRent extends AbstractEntity {
     @Basic(optional = false)
+    @Column(nullable = false)
+    private int ownerId;
+
+    @Basic(optional = false)
+    @Column(nullable = false)
     private Date startDate;
 
     @Basic(optional = false)
+    @Column(nullable = false)
     private Date endDate;
 
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private boolean archive;
+
+    //todo
     @ManyToOne(optional = false)
     private Book book;
 

@@ -6,11 +6,16 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name="tags")
 public class Tag extends AbstractEntity {
     @Basic(optional = false)
     @Column(nullable = false)
-    private String text;
+    private String text;    // in mySQL: VARCHAR(255)
 
+
+
+
+    // todo
     @ManyToMany(mappedBy = "tags")
     private List<Book> books;
 

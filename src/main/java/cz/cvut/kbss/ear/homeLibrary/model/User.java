@@ -19,7 +19,7 @@ public class User extends AbstractEntity {
     private String surname;
 
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
     
     @Basic(optional = false)
@@ -27,8 +27,11 @@ public class User extends AbstractEntity {
     private String password;
 
     @Basic(optional = false)
+    @Column(nullable = false)
     private String role; // change to enum
 
+
+    //todo
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     private Library library;

@@ -9,37 +9,32 @@ import java.util.Objects;
 @Table(name="libraries")
 public class Library extends AbstractEntity {
     @Basic(optional = false)
-    private String name;
+    @Column(nullable = false)
+    private Integer borrowingPeriod;    // days
 
     @Basic(optional = false)
-    private Integer borrowLength;
-
-    @Basic(optional = false)
+    @Column(nullable = false)
     private Boolean visible;
 
+
+    //todo
     @OneToOne
     private User user;
 
+
+    //todo change to one array
     @OneToMany(mappedBy = "origin")
     private List<Book> myBooks;
 
     @OneToMany(mappedBy = "current")
     private List<Book> borrowedBooks;
 
-    public String getName() {
-        return name;
+    public Integer getBorrowingPeriod() {
+        return borrowingPeriod;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getBorrowLength() {
-        return borrowLength;
-    }
-
-    public void setBorrowLength(Integer borrowLength) {
-        this.borrowLength = borrowLength;
+    public void setBorrowingPeriod(Integer borrowingPeriod) {
+        this.borrowingPeriod = borrowingPeriod;
     }
 
     public Boolean getVisible() {
