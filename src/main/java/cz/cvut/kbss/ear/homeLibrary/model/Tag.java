@@ -1,5 +1,7 @@
 package cz.cvut.kbss.ear.homeLibrary.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ public class Tag extends AbstractIdentifiableObject {
     private String text;    // in mySQL: VARCHAR(255)
 
     @ManyToMany(mappedBy = "tags")
+    @JsonIgnore
     private List<Book> books;
 
 

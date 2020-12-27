@@ -6,25 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.standard.Media;
-import java.awt.*;
-
 @RestController
 @RequestMapping("/library")
 public class LibraryController {
 //    2DO - LOGGING, - TRY CATCH BLOCKS, - DOC
 
-    private LibraryService service;
+    private final LibraryService libraryService;
 
     @Autowired
-    public LibraryController(LibraryService service) {
-        this.service = service;
+    public LibraryController(LibraryService libraryService) {
+        this.libraryService = libraryService;
     }
 
-/*    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Library getById(@PathVariable Integer id){
-        return this.service.find(id);
-    }*/
+        return this.libraryService.find(id);
+    }
 
 /*    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@PathVariable Integer id, @RequestBody Library newLibrary){

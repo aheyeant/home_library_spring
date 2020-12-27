@@ -22,8 +22,8 @@ public class LibraryService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Library> find(Integer id){
-        return Optional.of(libraryDAO.find(id));
+    public Library find(Integer id){
+        return libraryDAO.find(id);
     }
 
     @Transactional(readOnly = true)

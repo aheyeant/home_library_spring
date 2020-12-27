@@ -1,6 +1,7 @@
 package cz.cvut.kbss.ear.homeLibrary.model;
 
-import net.minidev.json.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import static java.lang.annotation.ElementType.METHOD;
 
 @Entity
 @Table(name="books")
@@ -40,6 +40,7 @@ public class Book extends AbstractIdentifiableObject {
     private Date availableFrom;
 
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Library library;
 
     @ManyToMany
@@ -47,6 +48,7 @@ public class Book extends AbstractIdentifiableObject {
     private List<Tag> tags;
 
     @OneToMany(mappedBy = "book")
+    @JsonIgnore
     private List<BookRent> rents;
 
 

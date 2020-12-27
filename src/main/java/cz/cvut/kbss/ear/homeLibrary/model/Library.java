@@ -1,6 +1,8 @@
 package cz.cvut.kbss.ear.homeLibrary.model;
 
-import net.minidev.json.annotate.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,10 +24,12 @@ public class Library extends AbstractIdentifiableObject {
     private Boolean visible;
 
     @OneToOne(optional = false)
+    //@JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "library")
-    private List<Book> myBooks;
+    @OneToMany(mappedBy = "library", fetch = FetchType.LAZY)
+    //@JsonIgnore
+    private List<Book> books;
 
 
     public Integer getBorrowingPeriod() {
@@ -52,30 +56,30 @@ public class Library extends AbstractIdentifiableObject {
         this.user = user;
     }
 
-    public List<Book> getMyBooks() {
-        return myBooks;
+    public List<Book> getBooks() {
+        return books;
     }
 
-    public void setMyBooks(List<Book> books) {
-        this.myBooks = books;
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     //todo
     public void addMyBook(Book book){
         Objects.requireNonNull(book);
-        if (myBooks == null) {
-            this.myBooks = new ArrayList<>();
+        if (books == null) {
+            this.books = new ArrayList<>();
         }
-        myBooks.add(book);
+        books.add(book);
     }
 
     //todo
     public void removeMyBook(Book book){
         Objects.requireNonNull(book);
-        if (myBooks == null) {
+        if (books == null) {
             return;
         }
-        myBooks.removeIf(t -> Objects.equals(t.getId(), book.getId()));
+        books.removeIf(t -> Objects.equals(t.getId(), book.getId()));
     }
 
     //todo toString

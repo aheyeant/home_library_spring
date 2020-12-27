@@ -2,6 +2,8 @@ package cz.cvut.kbss.ear.homeLibrary.model;
 
 //import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ public class User extends AbstractIdentifiableObject {
 
     //todo
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //@JsonIgnore
     private Library library;
 
     @OneToMany(mappedBy = "user")

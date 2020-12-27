@@ -5,7 +5,6 @@ import cz.cvut.kbss.ear.homeLibrary.dao.UserDAO;
 import cz.cvut.kbss.ear.homeLibrary.model.BookRent;
 import cz.cvut.kbss.ear.homeLibrary.model.Library;
 import cz.cvut.kbss.ear.homeLibrary.model.User;
-import cz.cvut.kbss.ear.homeLibrary.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

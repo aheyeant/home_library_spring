@@ -26,8 +26,8 @@ public class BookService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Book> find(Integer id){
-        return Optional.of(bookDAO.find(id));
+    public Book find(Integer id){
+        return bookDAO.find(id);
     }
 
     @Transactional(readOnly = true)

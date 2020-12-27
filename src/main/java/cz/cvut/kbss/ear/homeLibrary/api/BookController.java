@@ -1,5 +1,6 @@
 package cz.cvut.kbss.ear.homeLibrary.api;
 
+import cz.cvut.kbss.ear.homeLibrary.api.exceptions.NotFoundException;
 import cz.cvut.kbss.ear.homeLibrary.api.util.RestUtils;
 import cz.cvut.kbss.ear.homeLibrary.model.Book;
 import cz.cvut.kbss.ear.homeLibrary.service.BookService;
@@ -29,10 +30,14 @@ public class BookController {
     }
 
     //public
-/*    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Book getBook(@PathVariable("id") Integer id ){
-        return service.find(id);
-    }*/
+        final Book book = bookService.find(id);
+        if (book == null) {
+            throw new NotFoundException();
+        }
+        return book;
+    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createBook(@RequestBody Book book) {
