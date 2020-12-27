@@ -4,7 +4,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Message extends AbstractEntity {
+@Table(name="messages")
+public class Message extends AbstractIdentifiableObject {
     @Basic(optional = false)
     @Column(nullable = false)
     private Date timeStamp;   // in mySQL: format "YYYY-MM-DD HH:MM:SS"
@@ -13,15 +14,12 @@ public class Message extends AbstractEntity {
     @Column(nullable = false)
     private String text;     // in mySQL: TEXT(1000), max 1000 chars
 
-
-
-
-    //todo
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Chat chat;
+
 
     public Date getTimeStamp() {
         return timeStamp;
@@ -54,4 +52,6 @@ public class Message extends AbstractEntity {
     public void setChat(Chat chat) {
         this.chat = chat;
     }
+
+    //todo toString
 }

@@ -1,5 +1,7 @@
 package cz.cvut.kbss.ear.homeLibrary.model;
 
+import net.minidev.json.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +9,10 @@ import java.util.Objects;
 
 @Entity
 @Table(name="libraries")
-public class Library extends AbstractEntity {
+@NamedQueries({
+        @NamedQuery(name = "Library.findByUserId", query = "SELECT l FROM Library l WHERE l.user.id = :id")
+})
+public class Library extends AbstractIdentifiableObject {
     @Basic(optional = false)
     @Column(nullable = false)
     private Integer borrowingPeriod;    // days
@@ -16,14 +21,12 @@ public class Library extends AbstractEntity {
     @Column(nullable = false)
     private Boolean visible;
 
-
-    //todo
-    @OneToOne
+    @OneToOne(optional = false)
     private User user;
-
 
     @OneToMany(mappedBy = "library")
     private List<Book> myBooks;
+
 
     public Integer getBorrowingPeriod() {
         return borrowingPeriod;
@@ -57,6 +60,7 @@ public class Library extends AbstractEntity {
         this.myBooks = books;
     }
 
+    //todo
     public void addMyBook(Book book){
         Objects.requireNonNull(book);
         if (myBooks == null) {
@@ -65,6 +69,7 @@ public class Library extends AbstractEntity {
         myBooks.add(book);
     }
 
+    //todo
     public void removeMyBook(Book book){
         Objects.requireNonNull(book);
         if (myBooks == null) {
@@ -72,4 +77,6 @@ public class Library extends AbstractEntity {
         }
         myBooks.removeIf(t -> Objects.equals(t.getId(), book.getId()));
     }
+
+    //todo toString
 }

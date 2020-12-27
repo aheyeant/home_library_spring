@@ -1,17 +1,25 @@
 package cz.cvut.kbss.ear.homeLibrary.model;
 
-import org.hibernate.annotations.ManyToAny;
+import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.Type;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Supplier;
+
+import static java.lang.annotation.ElementType.METHOD;
 
 @Entity
 @Table(name="books")
-public class Book extends AbstractEntity{
+@NamedQueries({
+        @NamedQuery(name = "Book.getAllBooksFromLibrary", query = "SELECT b FROM Book b WHERE b.library.id = :id")
+        //@NamedQuery(name = "Book.getAvailableBooksFromLibrary", query = "SELECT b FROM Book b WHERE b.library.id = :id AND b.available"),
+        //@NamedQuery(name = "Book.getNotAvailableBooksFromLibrary", query = "SELECT b FROM Book b WHERE b.library.id = :id AND NOT b.available")
+})
+public class Book extends AbstractIdentifiableObject {
     @Basic(optional = false)
     @Column(nullable = false)
     private String title;
@@ -20,25 +28,27 @@ public class Book extends AbstractEntity{
     @Column(nullable = false)
     private String author;
 
+    @Column(nullable = true)
     private String ISBN;
 
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(columnDefinition = "TINYINT", nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private Boolean available;
 
+    @Column(nullable = true)
     private Date availableFrom;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Library library;
 
     @ManyToMany
+    @OrderBy("text")
     private List<Tag> tags;
 
     @OneToMany(mappedBy = "book")
     private List<BookRent> rents;
 
-
-    public Book() {}
 
     public String getTitle() {
         return title;
@@ -64,14 +74,6 @@ public class Book extends AbstractEntity{
         this.ISBN = ISBN;
     }
 
-    public Library getLibrary() {
-        return library;
-    }
-
-    public void setLibrary(Library library) {
-        this.library = library;
-    }
-
     public Boolean getAvailable() {
         return available;
     }
@@ -88,6 +90,14 @@ public class Book extends AbstractEntity{
         this.availableFrom = availableFrom;
     }
 
+    public Library getLibrary() {
+        return library;
+    }
+
+    public void setLibrary(Library library) {
+        this.library = library;
+    }
+
     public List<Tag> getTags() {
         return tags;
     }
@@ -96,6 +106,7 @@ public class Book extends AbstractEntity{
         this.tags = tags;
     }
 
+    //todo
     public void addTag(Tag tag){
         Objects.requireNonNull(tag);
         if (tags == null) {
@@ -104,17 +115,13 @@ public class Book extends AbstractEntity{
         tags.add(tag);
     }
 
+    //todo
     public void removeTag(Tag tag){
         Objects.requireNonNull(tag);
         if (tags == null) {
             return;
         }
         tags.removeIf(t -> Objects.equals(t.getId(), tag.getId()));
-    }
-
-    @Override
-    public String toString() {
-        return "Book";
     }
 
     public List<BookRent> getRents() {
@@ -125,6 +132,7 @@ public class Book extends AbstractEntity{
         this.rents = rents;
     }
 
+    //todo
     public void addBookRent(BookRent rent){
         Objects.requireNonNull(rent);
         if (rents == null) {
@@ -133,11 +141,18 @@ public class Book extends AbstractEntity{
         rents.add(rent);
     }
 
+    //todo
     public void removeBookRent(BookRent rent){
         Objects.requireNonNull(rent);
         if (rents == null) {
             return;
         }
         rents.removeIf(t -> Objects.equals(t.getId(), rent.getId()));
+    }
+
+    //todo toString
+    @Override
+    public String toString() {
+        return "Book";
     }
 }

@@ -1,12 +1,10 @@
 package cz.cvut.kbss.ear.homeLibrary.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @MappedSuperclass
-public class AbstractEntity implements Serializable {
+public class AbstractIdentifiableObject implements Serializable {
 
     @Id
     @GeneratedValue

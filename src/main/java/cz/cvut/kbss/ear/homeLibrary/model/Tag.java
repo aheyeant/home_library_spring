@@ -7,16 +7,14 @@ import java.util.Objects;
 
 @Entity
 @Table(name="tags")
-public class Tag extends AbstractEntity {
+public class Tag extends AbstractIdentifiableObject {
     @Basic(optional = false)
     @Column(nullable = false)
     private String text;    // in mySQL: VARCHAR(255)
 
-
-
-    // todo
     @ManyToMany(mappedBy = "tags")
     private List<Book> books;
+
 
     public String getText() {
         return text;
@@ -34,6 +32,7 @@ public class Tag extends AbstractEntity {
         this.books = books;
     }
 
+    //todo
     public void addBook(Book book){
         Objects.requireNonNull(book);
         if (books == null) {
@@ -42,6 +41,7 @@ public class Tag extends AbstractEntity {
         books.add(book);
     }
 
+    //todo
     public void removeBook(Book book){
         Objects.requireNonNull(book);
         if (books == null) {
@@ -49,4 +49,6 @@ public class Tag extends AbstractEntity {
         }
         books.removeIf(b -> Objects.equals(b.getId(), book.getId()));
     }
+
+    //todo toString
 }

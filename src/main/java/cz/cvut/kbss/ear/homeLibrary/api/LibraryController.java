@@ -21,28 +21,28 @@ public class LibraryController {
         this.service = service;
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+/*    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Library getById(@PathVariable Integer id){
         return this.service.find(id);
-    }
+    }*/
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+/*    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@PathVariable Integer id, @RequestBody Library newLibrary){
         Library oldLibrary = service.find(id);
         if (newLibrary.getId().equals(oldLibrary.getId())){
             this.service.update(newLibrary);
         }
-    }
+    }*/
 
-    @GetMapping(value = "/{id}/hide")
+/*    @GetMapping(value = "/{id}/hide")
     public void hide(@PathVariable Integer id){
         Library library = service.find(id);
         service.hide(library);
-    }
+    }*/
 
-    @GetMapping(value = "/{id}/show")
+/*    @GetMapping(value = "/{id}/show")
     public void show(@PathVariable Integer id){
         Library library = service.find(id);
         service.show(library);
-    }
+    }*/
 }

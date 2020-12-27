@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name="chat")
-public class Chat extends AbstractEntity {
+@Table(name="chats")
+public class Chat extends AbstractIdentifiableObject {
     @Basic(optional = false)
     @Column(nullable = false)
     private String title;
@@ -58,6 +58,7 @@ public class Chat extends AbstractEntity {
         this.messages = messages;
     }
 
+    //todo
     public void addMessage(Message message){
         Objects.requireNonNull(message);
         if (messages == null) {
@@ -67,6 +68,7 @@ public class Chat extends AbstractEntity {
         messages.add(message);
     }
 
+    //todo
     public void removeMessage(Message message){
         Objects.requireNonNull(message);
         if (messages == null) {
@@ -74,4 +76,6 @@ public class Chat extends AbstractEntity {
         }
         messages.removeIf(b -> Objects.equals(b.getId(), message.getId()));
     }
+
+    //todo toString
 }

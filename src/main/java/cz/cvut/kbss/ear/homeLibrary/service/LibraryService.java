@@ -7,10 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class LibraryService {
+
     private final LibraryDAO libraryDAO;
+
 
     @Autowired
     public LibraryService(LibraryDAO libraryDAO) {
@@ -18,8 +22,8 @@ public class LibraryService {
     }
 
     @Transactional(readOnly = true)
-    public Library find(Integer id){
-        return libraryDAO.find(id);
+    public Optional<Library> find(Integer id){
+        return Optional.of(libraryDAO.find(id));
     }
 
     @Transactional(readOnly = true)
@@ -27,9 +31,27 @@ public class LibraryService {
         return libraryDAO.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public List<Library> findAllVisible() { return libraryDAO.findAllVisible(); }
+
+    //todo check if user ok
+    @Transactional
+    public void persist(Library library) {
+        Objects.requireNonNull(library);
+        libraryDAO.persist(library);
+    }
+
     @Transactional
     public void update(Library library) {
+        Objects.requireNonNull(library);
         libraryDAO.update(library);
+    }
+
+    //todo remove books;
+    @Transactional
+    public void remove(Library library) {
+        Objects.requireNonNull(library);
+        libraryDAO.remove(library);
     }
 
     @Transactional

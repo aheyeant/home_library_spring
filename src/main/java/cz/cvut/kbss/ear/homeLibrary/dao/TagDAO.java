@@ -9,4 +9,7 @@ public class TagDAO extends BaseDAO<Tag>{
     public TagDAO() {
         super(Tag.class);
     }
+
+
+    //todo md add remove not reference
 }

@@ -1,12 +1,13 @@
 package cz.cvut.kbss.ear.homeLibrary.model;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
-@Table(name="bookrent")
-public class BookRent extends AbstractEntity {
+@Table(name="bookrents")
+public class BookRent extends AbstractIdentifiableObject {
     @Basic(optional = false)
     @Column(nullable = false)
     private int ownerId;
@@ -20,23 +21,19 @@ public class BookRent extends AbstractEntity {
     private Date endDate;
 
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(columnDefinition = "TINYINT", nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean archive;
 
-    //todo
     @ManyToOne(optional = false)
     private Book book;
 
     @ManyToOne(optional = false)
     private User user;
 
-    public Book getBook() {
-        return book;
-    }
+    public int getOwnerId() { return ownerId; }
 
-    public void setBook(Book book) {
-        this.book = book;
-    }
+    public void setOwnerId(int ownerId) { this.ownerId = ownerId; }
 
     public Date getStartDate() {
         return startDate;
@@ -54,6 +51,18 @@ public class BookRent extends AbstractEntity {
         this.endDate = endDate;
     }
 
+    public boolean isArchive() { return archive; }
+
+    public void setArchive(boolean archive) { this.archive = archive; }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
     public User getUser() {
         return user;
     }
@@ -61,4 +70,6 @@ public class BookRent extends AbstractEntity {
     public void setUser(User user) {
         this.user = user;
     }
+
+    //todo toString
 }

@@ -9,7 +9,10 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-public class User extends AbstractEntity {
+@NamedQueries({
+    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email")
+})
+public class User extends AbstractIdentifiableObject {
     @Basic(optional = false)
     @Column(nullable = false)
     private String firstName;
@@ -28,19 +31,20 @@ public class User extends AbstractEntity {
 
     @Basic(optional = false)
     @Column(nullable = false)
-    private String role; // change to enum
-
+    @Enumerated(EnumType.STRING)
+    private EUserRole role;
 
     //todo
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Library library;
 
     @OneToMany(mappedBy = "user")
     private List<BookRent> bookRents;
 
     @ManyToMany(mappedBy = "users")
+    @OrderBy("title")
     private List<Chat> chats;
+
 
     public String getFirstName() {
         return firstName;
@@ -74,6 +78,11 @@ public class User extends AbstractEntity {
         this.password = password;
     }
 
+    public Library getLibrary() {
+        return library;
+    }
+
+    //todo
     public void setLibrary(Library library){
         if (library == null) {
             if (this.library != null) {
@@ -86,18 +95,16 @@ public class User extends AbstractEntity {
         this.library = library;
     }
 
-    public Library getLibrary() {
-        return library;
-    }
-
     public List<BookRent> getBookRents() {
         return bookRents;
     }
 
+    //todo
     public void setBookRents(List<BookRent> bookRents) {
         this.bookRents = bookRents;
     }
 
+    //todo
     public void addBookRent(BookRent bookRent){
         Objects.requireNonNull(bookRent);
         if (bookRents == null) {
@@ -106,6 +113,7 @@ public class User extends AbstractEntity {
         bookRents.add(bookRent);
     }
 
+    //todo
     public void removeBookRent(BookRent bookRent){
         Objects.requireNonNull(bookRent);
         if (bookRents == null) {
@@ -118,10 +126,12 @@ public class User extends AbstractEntity {
         return chats;
     }
 
+    //todo
     public void setChats(List<Chat> chats) {
         this.chats = chats;
     }
 
+    //todo
     public void addChat(Chat chat){
         Objects.requireNonNull(chat);
         if (chats == null) {
@@ -130,6 +140,7 @@ public class User extends AbstractEntity {
         chats.add(chat);
     }
 
+    //todo
     public void removeChat(Chat chat){
         Objects.requireNonNull(chat);
         if (chats == null) {
@@ -138,10 +149,5 @@ public class User extends AbstractEntity {
         chats.removeIf(b -> Objects.equals(b.getId(), chat.getId()));
     }
 
-
-
-
-
-
-
+    //todo toString
 }
