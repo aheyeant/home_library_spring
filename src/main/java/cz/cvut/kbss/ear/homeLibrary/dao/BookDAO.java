@@ -17,28 +17,18 @@ public class BookDAO extends BaseDAO<Book> {
         super(Book.class);
     }
 
-    @Override
-    public List<Book> findAll() {
-        try {
-            return em.createQuery("SELECT b FROM Book b", Book.class).getResultList();
-        }
-        catch (NoResultException e) {
-            return null;
-        }
-    }
-
     public List<Book> findAllAvailable() {
         try {
-            return em.createQuery("SELECT b FROM Book b WHERE b.available", Book.class).getResultList();
+            return em.createNamedQuery("Book.getAllAvailable", Book.class).getResultList();
         }
         catch (NoResultException e) {
             return null;
         }
     }
 
-    public List<Book> findAllNotAvailable() {
+    public List<Book> findAllBorrowed() {
         try {
-            return em.createQuery("SELECT b FROM Book b WHERE NOT b.available", Book.class).getResultList();
+            return em.createNamedQuery("Book.getAllBorrowed", Book.class).getResultList();
         }
         catch (NoResultException e) {
             return null;
@@ -58,17 +48,16 @@ public class BookDAO extends BaseDAO<Book> {
     public List<Book> getAvailableBooksFromLibrary(Integer libraryId) {
         Objects.requireNonNull(libraryId);
         try {
-            //SELECT b FROM Book b WHERE b.library.id = :id AND b.available
-            return em.createQuery("SELECT b FROM Book b WHERE b.library.id = :id AND b.available", Book.class).setParameter("id", libraryId).getResultList();
+            //return em.createQuery("SELECT b FROM Book b WHERE b.library.id = :id AND b.available", Book.class).setParameter("id", libraryId).getResultList();
             //return null;
-            //return em.createNamedQuery("Book.getAvailableBooksFromLibrary", Book.class).setParameter("id", libraryId).getResultList();
+            return em.createNamedQuery("Book.getAvailableBooksFromLibrary", Book.class).setParameter("id", libraryId).getResultList();
         } catch (NoResultException e) {
             return null;
         }
     }
 
     //todo
-    public List<Book> getNotAvailableBooksFromLibrary(Integer libraryId) {
+    public List<Book> getBorrowedBooksFromLibrary(Integer libraryId) {
         Objects.requireNonNull(libraryId);
         try {
             return null;

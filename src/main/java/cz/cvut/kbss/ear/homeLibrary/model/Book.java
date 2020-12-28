@@ -15,9 +15,11 @@ import java.util.Objects;
 @Entity
 @Table(name="books")
 @NamedQueries({
-        @NamedQuery(name = "Book.getAllBooksFromLibrary", query = "SELECT b FROM Book b WHERE b.library.id = :id")
-        //@NamedQuery(name = "Book.getAvailableBooksFromLibrary", query = "SELECT b FROM Book b WHERE b.library.id = :id AND b.available"),
-        //@NamedQuery(name = "Book.getNotAvailableBooksFromLibrary", query = "SELECT b FROM Book b WHERE b.library.id = :id AND NOT b.available")
+        @NamedQuery(name = "Book.getAllAvailable", query = "SELECT b FROM Book b WHERE b.available=true"),
+        @NamedQuery(name = "Book.getAllBorrowed", query = "SELECT b FROM Book b WHERE b.available=false"),
+        @NamedQuery(name = "Book.getAllBooksFromLibrary", query = "SELECT b FROM Book b WHERE b.library.id = :id"),
+        @NamedQuery(name = "Book.getAvailableBooksFromLibrary", query = "SELECT b FROM Book b WHERE b.library.id = :id AND b.available = true"),
+        @NamedQuery(name = "Book.getNotAvailableBooksFromLibrary", query = "SELECT b FROM Book b WHERE b.library.id = :id AND b.available = true")
 })
 public class Book extends AbstractIdentifiableObject {
     @Basic(optional = false)

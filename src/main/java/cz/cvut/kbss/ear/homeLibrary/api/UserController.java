@@ -41,7 +41,7 @@ public class UserController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_GUEST')")
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_GUEST')")
     @GetMapping(value = "/current", produces = MediaType.APPLICATION_JSON_VALUE)
     public User getCurrent(Principal principal) {
         final AuthenticationToken auth = (AuthenticationToken) principal;

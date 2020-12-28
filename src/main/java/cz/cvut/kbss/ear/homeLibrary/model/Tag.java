@@ -9,9 +9,12 @@ import java.util.Objects;
 
 @Entity
 @Table(name="tags")
+@NamedQueries({
+        @NamedQuery(name = "Tag.findByText", query = "SELECT t FROM Tag t WHERE t.text = :text")
+})
 public class Tag extends AbstractIdentifiableObject {
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String text;    // in mySQL: VARCHAR(255)
 
     @ManyToMany(mappedBy = "tags")

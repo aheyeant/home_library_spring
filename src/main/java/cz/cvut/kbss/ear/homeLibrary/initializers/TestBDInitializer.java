@@ -1,9 +1,6 @@
 package cz.cvut.kbss.ear.homeLibrary.initializers;
 
-import cz.cvut.kbss.ear.homeLibrary.model.Book;
-import cz.cvut.kbss.ear.homeLibrary.model.EUserRole;
-import cz.cvut.kbss.ear.homeLibrary.model.Library;
-import cz.cvut.kbss.ear.homeLibrary.model.User;
+import cz.cvut.kbss.ear.homeLibrary.model.*;
 import cz.cvut.kbss.ear.homeLibrary.service.BookService;
 import cz.cvut.kbss.ear.homeLibrary.service.LibraryService;
 import cz.cvut.kbss.ear.homeLibrary.service.UserService;
@@ -69,7 +66,10 @@ public class TestBDInitializer {
             Book book3_l3 = createTestBook(library3, "A", library3.getUser().getEmail(), "123", true);
 
 
-
+/*            Tag tagA = new Tag();
+            tagA.setText("A");
+            book1_l1.addTag(tagA);
+            bookService.update(book1_l1);*/
             return null;
         });
     }

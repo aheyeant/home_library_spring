@@ -1,5 +1,6 @@
 package cz.cvut.kbss.ear.homeLibrary.service;
 
+import cz.cvut.kbss.ear.homeLibrary.api.exceptions.NotFoundException;
 import cz.cvut.kbss.ear.homeLibrary.dao.BookDAO;
 import cz.cvut.kbss.ear.homeLibrary.dao.LibraryDAO;
 import cz.cvut.kbss.ear.homeLibrary.model.*;
@@ -9,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class BookService {
@@ -36,22 +36,35 @@ public class BookService {
     }
 
     @Transactional(readOnly = true)
+    public List<Book> getAvailableBooks(){
+        return bookDAO.findAllAvailable();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Book> getBorrowedBooks(){
+        return bookDAO.findAllBorrowed();
+    }
+
+    //todo filter by visible
+    @Transactional(readOnly = true)
     public List<Book> getAllBooksFromLibrary(Integer libraryId){
         Objects.requireNonNull(libraryId);
         return bookDAO.getAllBooksFromLibrary(libraryId);
     }
 
+    //todo filter by visible
     @Transactional(readOnly = true)
     public List<Book> getAvailableBooksFromLibrary(Integer libraryId){
         Objects.requireNonNull(libraryId);
         return bookDAO.getAvailableBooksFromLibrary(libraryId);
     }
 
+    //todo filter by visible
     @Transactional(readOnly = true)
-    public List<Book> getNotAvailableBooksFromLibrary(Integer libraryId){
-        return bookDAO.getNotAvailableBooksFromLibrary(libraryId);
+    public List<Book> getBorrowedBooksFromLibrary(Integer libraryId){
+        Objects.requireNonNull(libraryId);
+        return bookDAO.getBorrowedBooksFromLibrary(libraryId);
     }
-
 
     @Transactional
     public void persist(Book book){

@@ -3,15 +3,18 @@ package cz.cvut.kbss.ear.homeLibrary.api;
 import cz.cvut.kbss.ear.homeLibrary.api.exceptions.NotFoundException;
 import cz.cvut.kbss.ear.homeLibrary.api.util.RestUtils;
 import cz.cvut.kbss.ear.homeLibrary.model.Book;
+import cz.cvut.kbss.ear.homeLibrary.model.Library;
 import cz.cvut.kbss.ear.homeLibrary.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("api/books")
@@ -24,9 +27,21 @@ public class BookController {
     }
 
     //public
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getBooks(){
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Book> getAllBooks(){
         return bookService.findAll();
+    }
+
+    //public
+    @GetMapping(value = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Book> getAvailableBooks(){
+        return bookService.getAvailableBooks();
+    }
+
+    //public
+    @GetMapping(value = "/borrowed", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Book> getBorrowedBooks(){
+        return bookService.getBorrowedBooks();
     }
 
     //public
@@ -38,6 +53,57 @@ public class BookController {
         }
         return book;
     }
+
+    //public
+    @GetMapping(value="/library/{library_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Book> getAllBooksFromLibrary(@PathVariable("library_id") Integer libraryId){
+
+        Objects.requireNonNull(libraryId);
+        List<Book> books = bookService.getAllBooksFromLibrary(libraryId);
+        if (books == null) {
+            throw  NotFoundException.create(Library.class.getName(), libraryId);
+        }
+        return books;
+    }
+
+    //public
+    @GetMapping(value="/library/available/{library_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Book> getAvailableBooksFromLibrary(@PathVariable("library_id") Integer libraryId){
+        Objects.requireNonNull(libraryId);
+        List<Book> books = bookService.getAvailableBooksFromLibrary(libraryId);
+        if (books == null) {
+            throw  NotFoundException.create(Library.class.getName(), libraryId);
+        }
+        return books;
+    }
+
+    //public
+    @GetMapping(value="/library/borrowed/{library_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Book> getBorrowedBooksFromLibrary(@PathVariable("library_id") Integer libraryId){
+        Objects.requireNonNull(libraryId);
+        List<Book> books = bookService.getBorrowedBooksFromLibrary(libraryId);
+        if (books == null) {
+            throw  NotFoundException.create(Library.class.getName(), libraryId);
+        }
+        return books;
+    }
+
+
+
+/*        @GetMapping(value="/owned/from-library/{library_id}")
+    public List<Book> getAllBooksFromLibrary(@PathVariable("library_id") Integer libraryId){
+        return bookService.
+
+        return service.getOwnedBooksFromLibrary(id);
+    }*/
+
+/*    @GetMapping(value="/borrowed/from-library/{library_id}")
+    public Iterable<Book> getBorrowedBooksFromLibrary(@PathVariable("library_id") Integer id){
+        return service.getBorrowedBooksFromLibrary(id);
+    }*/
+
+
+
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createBook(@RequestBody Book book) {
