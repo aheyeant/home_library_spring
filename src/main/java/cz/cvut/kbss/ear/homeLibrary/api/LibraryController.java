@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/library")
+@RequestMapping("api/library")
 public class LibraryController {
 //    2DO - LOGGING, - TRY CATCH BLOCKS, - DOC
 

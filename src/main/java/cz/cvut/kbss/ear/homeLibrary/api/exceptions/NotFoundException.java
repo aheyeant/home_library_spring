@@ -1,8 +1,11 @@
 package cz.cvut.kbss.ear.homeLibrary.api.exceptions;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+public class NotFoundException extends HLException  {
+    public NotFoundException(String message) {
+        super(message);
+    }
 
-@ResponseStatus(code = HttpStatus.NOT_FOUND)
-public class NotFoundException extends RuntimeException  {
+    public static NotFoundException create(String resourceName, Object identifier) {
+        return new NotFoundException(resourceName + " identified by " + identifier + " not found.");
+    }
 }

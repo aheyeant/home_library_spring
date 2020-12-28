@@ -34,7 +34,7 @@ public class BookController {
     public Book getBook(@PathVariable("id") Integer id ){
         final Book book = bookService.find(id);
         if (book == null) {
-            throw new NotFoundException();
+            throw NotFoundException.create(Book.class.getName(), id);
         }
         return book;
     }

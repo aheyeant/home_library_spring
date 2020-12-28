@@ -1,6 +1,6 @@
 package cz.cvut.kbss.ear.homeLibrary.model;
 
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -37,8 +37,8 @@ public class User extends AbstractIdentifiableObject {
     private EUserRole role;
 
     //todo
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    //@JsonIgnore
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Library library;
 
     @OneToMany(mappedBy = "user")
@@ -48,6 +48,9 @@ public class User extends AbstractIdentifiableObject {
     @OrderBy("title")
     private List<Chat> chats;
 
+    public User() {
+        this.role = EUserRole.GUEST;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -81,6 +84,26 @@ public class User extends AbstractIdentifiableObject {
         this.password = password;
     }
 
+    public void encodePassword(PasswordEncoder encoder) {
+        this.password = encoder.encode(password);
+    }
+
+    public void erasePassword() {
+        this.password = null;
+    }
+
+    public EUserRole getRole() {
+        return role;
+    }
+
+    public void setRole(EUserRole role) {
+        this.role = role;
+    }
+
+    public boolean isAdmin() {
+        return role == EUserRole.ADMIN;
+    }
+
     public Library getLibrary() {
         return library;
     }
@@ -88,13 +111,9 @@ public class User extends AbstractIdentifiableObject {
     //todo
     public void setLibrary(Library library){
         if (library == null) {
-            if (this.library != null) {
-                this.library.setUser(null);
-            }
+            throw new IllegalArgumentException("User::setLibrary(library == null)");
         }
-        else {
-            library.setUser(this);
-        }
+        library.setUser(this);
         this.library = library;
     }
 
@@ -152,5 +171,4 @@ public class User extends AbstractIdentifiableObject {
         chats.removeIf(b -> Objects.equals(b.getId(), chat.getId()));
     }
 
-    //todo toString
 }

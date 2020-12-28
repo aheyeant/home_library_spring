@@ -34,16 +34,17 @@ public class LibraryService {
     @Transactional(readOnly = true)
     public List<Library> findAllVisible() { return libraryDAO.findAllVisible(); }
 
-    //todo check if user ok
     @Transactional
     public void persist(Library library) {
         Objects.requireNonNull(library);
+        Objects.requireNonNull(library.getUser());
         libraryDAO.persist(library);
     }
 
     @Transactional
     public void update(Library library) {
         Objects.requireNonNull(library);
+        Objects.requireNonNull(library.getUser());
         libraryDAO.update(library);
     }
 

@@ -3,10 +3,12 @@ package cz.cvut.kbss.ear.homeLibrary.service;
 import cz.cvut.kbss.ear.homeLibrary.dao.LibraryDAO;
 import cz.cvut.kbss.ear.homeLibrary.dao.UserDAO;
 import cz.cvut.kbss.ear.homeLibrary.model.BookRent;
+import cz.cvut.kbss.ear.homeLibrary.model.EUserRole;
 import cz.cvut.kbss.ear.homeLibrary.model.Library;
 import cz.cvut.kbss.ear.homeLibrary.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,15 +24,19 @@ public class UserService {
 
     private final LibraryDAO libraryDAO;
 
+    private final PasswordEncoder passwordEncoder;
+
+
     @Autowired
-    public UserService(UserDAO userRepository, LibraryDAO libraryDAO) {
+    public UserService(UserDAO userRepository, LibraryDAO libraryDAO, PasswordEncoder passwordEncoder) {
         this.userDAO = userRepository;
         this.libraryDAO = libraryDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
-    public Optional<User> find(Integer id){
-        return Optional.of(userDAO.find(id));
+    public User find(Integer id){
+        return userDAO.find(id);
     }
 
     @Transactional(readOnly = true)
@@ -38,20 +44,14 @@ public class UserService {
         return userDAO.findAll();
     }
 
-
     @Transactional
     public void persist(User user){
         Objects.requireNonNull(user);
+        user.encodePassword(passwordEncoder);
+        if (user.getRole() == null) {
+            user.setRole(EUserRole.USER);
+        }
         userDAO.persist(user);
-    }
-
-    @Transactional
-    public void persist(User user, Library library){
-        Objects.requireNonNull(user);
-        Objects.requireNonNull(library);
-        userDAO.persist(user);
-        library.setUser(user);
-        libraryDAO.persist(library);
     }
 
     @Transactional
