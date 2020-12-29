@@ -19,7 +19,7 @@ import java.util.Objects;
         @NamedQuery(name = "Book.getAllBorrowed", query = "SELECT b FROM Book b WHERE b.available=false"),
         @NamedQuery(name = "Book.getAllBooksFromLibrary", query = "SELECT b FROM Book b WHERE b.library.id = :id"),
         @NamedQuery(name = "Book.getAvailableBooksFromLibrary", query = "SELECT b FROM Book b WHERE b.library.id = :id AND b.available = true"),
-        @NamedQuery(name = "Book.getNotAvailableBooksFromLibrary", query = "SELECT b FROM Book b WHERE b.library.id = :id AND b.available = true")
+        @NamedQuery(name = "Book.getBorrowedBooksFromLibrary", query = "SELECT b FROM Book b WHERE b.library.id = :id AND b.available = false")
 })
 public class Book extends AbstractIdentifiableObject {
     @Basic(optional = false)
@@ -110,12 +110,14 @@ public class Book extends AbstractIdentifiableObject {
         this.tags = tags;
     }
 
-    //todo
     public void addTag(Tag tag){
         Objects.requireNonNull(tag);
         if (tags == null) {
             this.tags = new ArrayList<>();
         }
+/*        for (Tag t : tags) {
+            if (t.getText().equals(tag.getText())) return;
+        }*/
         tags.add(tag);
     }
 

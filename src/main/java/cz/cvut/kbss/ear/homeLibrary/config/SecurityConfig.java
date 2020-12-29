@@ -34,12 +34,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AuthenticationSuccess authenticationSuccess;
 
-    private final DefaultAuthenticationProvider authenticationProvider;
+    //private final DefaultAuthenticationProvider authenticationProvider;
+    private final AuthenticationProvider authenticationProvider;
 
         @Autowired
     public SecurityConfig(AuthenticationFailure authenticationFailure,
                           AuthenticationSuccess authenticationSuccess,
-                          DefaultAuthenticationProvider authenticationProvider) {
+                          AuthenticationProvider authenticationProvider) {
         this.authenticationFailure = authenticationFailure;
         this.authenticationSuccess = authenticationSuccess;
         this.authenticationProvider = authenticationProvider;

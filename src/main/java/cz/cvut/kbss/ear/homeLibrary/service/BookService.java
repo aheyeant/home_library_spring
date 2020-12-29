@@ -1,13 +1,14 @@
 package cz.cvut.kbss.ear.homeLibrary.service;
 
-import cz.cvut.kbss.ear.homeLibrary.api.exceptions.NotFoundException;
 import cz.cvut.kbss.ear.homeLibrary.dao.BookDAO;
 import cz.cvut.kbss.ear.homeLibrary.dao.LibraryDAO;
+import cz.cvut.kbss.ear.homeLibrary.dao.TagDAO;
 import cz.cvut.kbss.ear.homeLibrary.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,11 +19,14 @@ public class BookService {
 
     private final LibraryDAO libraryDAO;
 
+    private final TagDAO tagDAO;
+
 
     @Autowired
-    public BookService(BookDAO bookDAO, LibraryDAO libraryDAO) {
+    public BookService(BookDAO bookDAO, LibraryDAO libraryDAO, TagDAO tagDAO) {
         this.bookDAO = bookDAO;
         this.libraryDAO = libraryDAO;
+        this.tagDAO = tagDAO;
     }
 
     @Transactional(readOnly = true)
@@ -68,13 +72,22 @@ public class BookService {
 
     @Transactional
     public void persist(Book book){
+        if (book != null && book.getTags() != null) {
+            book.setTags(correctTags(book.getTags()));
+        }
         bookDAO.persist(book);
     }
 
     @Transactional
     public void update(Book book) {
+        if (book != null && book.getTags() != null) {
+            book.setTags(correctTags(book.getTags()));
+        }
         bookDAO.update(book);
+        tagDAO.removeUnusedTag();
     }
+
+
 
     //todo tag
     @Transactional
@@ -120,6 +133,25 @@ public class BookService {
     @Transactional
     public void returnBook(Book book){
 
+    }
+
+
+
+    private List<Tag> correctTags(List<Tag> tags) {
+        if (tags.size() == 0) return tags;
+        List<Tag> newTags = new ArrayList<>();
+        tags.forEach(t -> {
+            Tag tmp = tagDAO.findByText(t.getText());
+            if (tmp == null) {
+                tagDAO.persist(t);
+                tmp = tagDAO.findByText(t.getText());
+                if (tmp != null) {
+                    if (!newTags.contains(tmp)) newTags.add(tmp);
+                }
+            }
+            if (!newTags.contains(tmp)) newTags.add(tmp);
+        });
+        return newTags;
     }
 
 }

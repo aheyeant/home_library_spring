@@ -1,6 +1,7 @@
 package cz.cvut.kbss.ear.homeLibrary.service;
 
 import cz.cvut.kbss.ear.homeLibrary.dao.TagDAO;
+import cz.cvut.kbss.ear.homeLibrary.model.Book;
 import cz.cvut.kbss.ear.homeLibrary.model.Tag;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,21 @@ public class TagService {
     @Transactional(readOnly = true)
     public Tag findByText(String text) {
         return tagDAO.findByText(text);
+    }
+
+    @Transactional
+    public void persist(Tag tag){
+        tagDAO.persist(tag);
+    }
+
+    @Transactional
+    public void update(Tag tag) {
+        tagDAO.update(tag);
+    }
+
+    @Transactional
+    public void remove(Tag tag) {
+        tagDAO.remove(tag);
     }
 
 

@@ -3,6 +3,7 @@ package cz.cvut.kbss.ear.homeLibrary.initializers;
 import cz.cvut.kbss.ear.homeLibrary.model.*;
 import cz.cvut.kbss.ear.homeLibrary.service.BookService;
 import cz.cvut.kbss.ear.homeLibrary.service.LibraryService;
+import cz.cvut.kbss.ear.homeLibrary.service.TagService;
 import cz.cvut.kbss.ear.homeLibrary.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,13 +26,16 @@ public class TestBDInitializer {
 
     private final BookService bookService;
 
+    private final TagService tagService;
+
     private final PlatformTransactionManager txManager;
 
     @Autowired
-    public TestBDInitializer(UserService userService, LibraryService libraryService, BookService bookService, PlatformTransactionManager txManager) {
+    public TestBDInitializer(UserService userService, LibraryService libraryService, BookService bookService, TagService tagService, PlatformTransactionManager txManager) {
         this.userService = userService;
         this.libraryService = libraryService;
         this.bookService = bookService;
+        this.tagService = tagService;
         this.txManager = txManager;
     }
 
@@ -55,17 +59,28 @@ public class TestBDInitializer {
 
             Book book1_l1 = createTestBook(library1, "A", library1.getUser().getEmail(), "123", true);
             Book book2_l1 = createTestBook(library1, "A B", library1.getUser().getEmail(), "123", true);
-            Book book3_l1 = createTestBook(library1, "B C", library1.getUser().getEmail(), "123", true);
+            Book book3_l1 = createTestBook(library1, "B C", library1.getUser().getEmail(), "123", false);
 
             Book book1_l2 = createTestBook(library2, "A B C", library2.getUser().getEmail(), "123", true);
             Book book2_l2 = createTestBook(library2, "B", library2.getUser().getEmail(), "123", true);
-            Book book3_l2 = createTestBook(library2, "C", library2.getUser().getEmail(), "123", true);
+            Book book3_l2 = createTestBook(library2, "C", library2.getUser().getEmail(), "123", false);
 
             Book book1_l3 = createTestBook(library3, "C", library3.getUser().getEmail(), "123", true);
             Book book2_l3 = createTestBook(library3, "B", library3.getUser().getEmail(), "123", true);
-            Book book3_l3 = createTestBook(library3, "A", library3.getUser().getEmail(), "123", true);
+            Book book3_l3 = createTestBook(library3, "A", library3.getUser().getEmail(), "123", false);
 
 
+            Tag A = createTestTag("A");
+            Tag B = createTestTag("B");
+            Tag C = createTestTag("C");
+/*            book1_l1.addTag(A);
+            bookService.update(book1_l1);
+
+
+            Tag test = new Tag();
+            test.setText("A");
+            book1_l1.addTag(test);
+            bookService.update(book1_l1);*/
 /*            Tag tagA = new Tag();
             tagA.setText("A");
             book1_l1.addTag(tagA);
@@ -97,9 +112,10 @@ public class TestBDInitializer {
         Library library = new Library();
         library.setBorrowingPeriod(InitializerConstants.DEFAULT_BORROWING_PERIOD);
         library.setVisible(visible);
-        library.setUser(user);
+        user.setLibrary(library);
         LOG.info("Created library related to " + user.getEmail());
         libraryService.persist(library);
+        userService.update(user);
         return library;
     }
 
@@ -118,7 +134,12 @@ public class TestBDInitializer {
         return book;
     }
 
-
+    private Tag createTestTag(String text) {
+        Tag tag = new Tag();
+        tag.setText(text);
+        tagService.persist(tag);
+        return tag;
+    }
 
 }
 

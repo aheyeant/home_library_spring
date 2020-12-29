@@ -10,9 +10,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 
@@ -89,6 +89,16 @@ public class BookController {
     }
 
 
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> createBook(Principal principal, @RequestBody Book book) {
+        Objects.requireNonNull(book);
+        bookService.persist(book);
+        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", book.getId());
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+
+
 
 /*        @GetMapping(value="/owned/from-library/{library_id}")
     public List<Book> getAllBooksFromLibrary(@PathVariable("library_id") Integer libraryId){
@@ -105,12 +115,7 @@ public class BookController {
 
 
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createBook(@RequestBody Book book) {
-        bookService.persist(book);
-        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", book.getId());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
-    }
+
 
 /*    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> update(@PathVariable Integer id, @RequestBody Book newBook){

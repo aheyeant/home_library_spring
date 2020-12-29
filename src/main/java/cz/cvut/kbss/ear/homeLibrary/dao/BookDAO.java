@@ -44,12 +44,9 @@ public class BookDAO extends BaseDAO<Book> {
         }
     }
 
-    //todo
     public List<Book> getAvailableBooksFromLibrary(Integer libraryId) {
         Objects.requireNonNull(libraryId);
         try {
-            //return em.createQuery("SELECT b FROM Book b WHERE b.library.id = :id AND b.available", Book.class).setParameter("id", libraryId).getResultList();
-            //return null;
             return em.createNamedQuery("Book.getAvailableBooksFromLibrary", Book.class).setParameter("id", libraryId).getResultList();
         } catch (NoResultException e) {
             return null;
@@ -60,8 +57,7 @@ public class BookDAO extends BaseDAO<Book> {
     public List<Book> getBorrowedBooksFromLibrary(Integer libraryId) {
         Objects.requireNonNull(libraryId);
         try {
-            return null;
-            //return em.createNamedQuery("Book.getNotAvailableBooksFromLibrary", Book.class).setParameter("id", libraryId).getResultList();
+            return em.createNamedQuery("Book.getBorrowedBooksFromLibrary", Book.class).setParameter("id", libraryId).getResultList();
         } catch (NoResultException e) {
             return null;
         }

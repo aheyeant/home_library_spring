@@ -5,6 +5,7 @@ import cz.cvut.kbss.ear.homeLibrary.api.exceptions.NotFoundException;
 import cz.cvut.kbss.ear.homeLibrary.api.util.RestUtils;
 import cz.cvut.kbss.ear.homeLibrary.model.User;
 import cz.cvut.kbss.ear.homeLibrary.security.model.AuthenticationToken;
+import cz.cvut.kbss.ear.homeLibrary.security.model.UserDetails;
 import cz.cvut.kbss.ear.homeLibrary.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -45,7 +49,8 @@ public class UserController {
     @GetMapping(value = "/current", produces = MediaType.APPLICATION_JSON_VALUE)
     public User getCurrent(Principal principal) {
         final AuthenticationToken auth = (AuthenticationToken) principal;
-        return auth.getPrincipal().getUser();
+        User user = auth.getPrincipal().getUser();
+        return user;
     }
 
     @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

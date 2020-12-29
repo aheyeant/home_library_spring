@@ -22,4 +22,22 @@ public class TagDAO extends BaseDAO<Tag>{
             return null;
         }
     }
+
+    public void removeUnusedTag() {
+        findAll().forEach(t -> {
+            if (t.getBooks() == null || t.getBooks().size() == 0) {
+                remove(t);
+            }
+        });
+    }
+
+    @Override
+    public Tag update(Tag tag) {
+        return super.update(tag);
+    }
+
+    @Override
+    public void remove(Tag tag) {
+        super.remove(tag);
+    }
 }
