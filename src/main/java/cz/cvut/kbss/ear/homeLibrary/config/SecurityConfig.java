@@ -1,8 +1,8 @@
 package cz.cvut.kbss.ear.homeLibrary.config;
 
+import cz.cvut.kbss.ear.homeLibrary.config.jwt.JwtFilter;
 import cz.cvut.kbss.ear.homeLibrary.security.AuthenticationFailure;
 import cz.cvut.kbss.ear.homeLibrary.security.AuthenticationSuccess;
-import cz.cvut.kbss.ear.homeLibrary.security.DefaultAuthenticationProvider;
 import cz.cvut.kbss.ear.homeLibrary.security.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,10 +15,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -37,14 +36,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //private final DefaultAuthenticationProvider authenticationProvider;
     private final AuthenticationProvider authenticationProvider;
 
-        @Autowired
+    private final JwtFilter jwtFilter;
+
+    @Autowired
     public SecurityConfig(AuthenticationFailure authenticationFailure,
                           AuthenticationSuccess authenticationSuccess,
-                          AuthenticationProvider authenticationProvider) {
-        this.authenticationFailure = authenticationFailure;
-        this.authenticationSuccess = authenticationSuccess;
-        this.authenticationProvider = authenticationProvider;
-    }
+                          AuthenticationProvider authenticationProvider,
+                          JwtFilter jwtFilter) {
+            this.authenticationFailure = authenticationFailure;
+            this.authenticationSuccess = authenticationSuccess;
+            this.authenticationProvider = authenticationProvider;
+            this.jwtFilter = jwtFilter;
+        }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
@@ -59,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().permitAll().and()
+/*        http.authorizeRequests().anyRequest().permitAll().and()
                 .exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 .and().headers().frameOptions().sameOrigin()
                 .and().authenticationProvider(authenticationProvider)
@@ -71,7 +74,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().invalidateHttpSession(true).deleteCookies(COOKIES_TO_DESTROY)
                 .logoutUrl(SecurityConstants.LOGOUT_URI).logoutSuccessHandler(authenticationSuccess)
-                .and().sessionManagement().maximumSessions(1);
+                .and().sessionManagement().maximumSessions(1);*/
+                http.authorizeRequests().anyRequest().permitAll()
+                        .and().httpBasic().disable().csrf().disable()
+                        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .and().addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 }

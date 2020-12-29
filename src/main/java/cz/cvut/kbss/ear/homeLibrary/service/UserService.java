@@ -1,13 +1,19 @@
 package cz.cvut.kbss.ear.homeLibrary.service;
 
+import cz.cvut.kbss.ear.homeLibrary.api.exceptions.NotFoundException;
 import cz.cvut.kbss.ear.homeLibrary.dao.LibraryDAO;
 import cz.cvut.kbss.ear.homeLibrary.dao.UserDAO;
 import cz.cvut.kbss.ear.homeLibrary.model.BookRent;
 import cz.cvut.kbss.ear.homeLibrary.model.EUserRole;
 import cz.cvut.kbss.ear.homeLibrary.model.Library;
 import cz.cvut.kbss.ear.homeLibrary.model.User;
+import cz.cvut.kbss.ear.homeLibrary.security.SecurityUtils;
+import cz.cvut.kbss.ear.homeLibrary.security.model.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,16 +80,18 @@ public class UserService {
     }
 
     @Transactional
-    public Optional<Library> createLibrary(User user){
-        Objects.requireNonNull(user);
+    public Library createLibrary(Integer userId){
+        Objects.requireNonNull(userId);
+        User user = find(userId);
         if (libraryDAO.findByUserId(user.getId()).isPresent()) {
-            return Optional.empty();
+            return null;
         }
-
         Library library = new Library();
         library.setUser(user);
         libraryDAO.persist(library);
-        return Optional.of(library);
+        user.setLibrary(library);
+        userDAO.update(user);
+        return library;
     }
 
 
@@ -111,6 +119,15 @@ public class UserService {
     @Transactional(readOnly = true)
     public boolean emailExist(String email){
         return userDAO.findByEmail(email) != null;
+    }
+
+
+    public User authenticate(String email, String password) throws AuthenticationException {
+        User user = userDAO.findByEmail(email);
+        if (user == null) throw NotFoundException.create(User.class.getName(), email);
+        if (passwordEncoder.matches(password, user.getPassword())) {
+            return user;
+        } else throw new BadCredentialsException("Bad Credentials");
     }
 
 }

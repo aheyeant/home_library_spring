@@ -9,4 +9,7 @@ public class Constants {
     // in MyQSL -> DATE (YYYY-MM-DD)
     public static final String DATE_FORMAT = "YYYY-MM-DD";
 
+    public static final int DEFAULT_BORROWING_PERIOD = 30; //days
+
+
 }

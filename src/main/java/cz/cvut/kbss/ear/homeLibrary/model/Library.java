@@ -3,6 +3,7 @@ package cz.cvut.kbss.ear.homeLibrary.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import cz.cvut.kbss.ear.homeLibrary.utils.Constants;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -31,6 +32,11 @@ public class Library extends AbstractIdentifiableObject {
     //@JsonIgnore
     private List<Book> books;
 
+
+    public Library() {
+        this.borrowingPeriod = Constants.DEFAULT_BORROWING_PERIOD;
+        this.visible = true;
+    }
 
     public Integer getBorrowingPeriod() {
         return borrowingPeriod;

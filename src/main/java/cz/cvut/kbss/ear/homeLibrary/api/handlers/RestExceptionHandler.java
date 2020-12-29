@@ -2,6 +2,7 @@ package cz.cvut.kbss.ear.homeLibrary.api.handlers;
 
 import cz.cvut.kbss.ear.homeLibrary.api.exceptions.NotFoundException;
 import cz.cvut.kbss.ear.homeLibrary.api.exceptions.PersistenceException;
+import cz.cvut.kbss.ear.homeLibrary.api.exceptions.AlreadyExistException;
 import cz.cvut.kbss.ear.homeLibrary.security.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +45,14 @@ public class RestExceptionHandler {
         // Not necessary to log NotFoundException, they may be quite frequent and do not represent an issue with the application
         return new ResponseEntity<>(errorInfo(request, e), HttpStatus.NOT_FOUND);
     }
+
+
+    @ExceptionHandler(AlreadyExistException.class)
+    public ResponseEntity<ErrorInfo> userAlreadyExistException(HttpServletRequest request, AlreadyExistException e) {
+        //logException(e);
+        return new ResponseEntity<>(errorInfo(request, e), HttpStatus.FORBIDDEN);
+    }
+
 
 /*    @ExceptionHandler(InsufficientAmountException.class)
     public ResponseEntity<ErrorInfo> insufficientAmount(HttpServletRequest request, InsufficientAmountException e) {

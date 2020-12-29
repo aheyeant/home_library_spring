@@ -1,6 +1,6 @@
 package cz.cvut.kbss.ear.homeLibrary.api.exceptions;
 
-public class NotFoundException extends HLException  {
+public class NotFoundException extends EarException {
     public NotFoundException(String message) {
         super(message);
     }

@@ -29,6 +29,7 @@ public class User extends AbstractIdentifiableObject {
     
     @Basic(optional = false)
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @Basic(optional = false)
@@ -113,6 +114,9 @@ public class User extends AbstractIdentifiableObject {
         if (library == null) {
             throw new IllegalArgumentException("User::setLibrary(library == null)");
         }
+        if (this.getLibrary() != null) {
+            throw new IllegalArgumentException("User::setLibrary(library already exist)");
+        }
         library.setUser(this);
         this.library = library;
     }
@@ -169,6 +173,16 @@ public class User extends AbstractIdentifiableObject {
             return;
         }
         chats.removeIf(b -> Objects.equals(b.getId(), chat.getId()));
+    }
+
+    public User convertTDO() {
+        User user = new User();
+        user.setId(this.getId());
+        user.setFirstName(this.getFirstName());
+        user.setSurname(this.getSurname());
+        user.setEmail(this.getEmail());
+        user.setRole(this.getRole());
+        return user;
     }
 
 }
