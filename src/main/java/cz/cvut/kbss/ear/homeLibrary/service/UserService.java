@@ -3,25 +3,18 @@ package cz.cvut.kbss.ear.homeLibrary.service;
 import cz.cvut.kbss.ear.homeLibrary.api.exceptions.NotFoundException;
 import cz.cvut.kbss.ear.homeLibrary.dao.LibraryDAO;
 import cz.cvut.kbss.ear.homeLibrary.dao.UserDAO;
-import cz.cvut.kbss.ear.homeLibrary.model.BookRent;
 import cz.cvut.kbss.ear.homeLibrary.model.EUserRole;
 import cz.cvut.kbss.ear.homeLibrary.model.Library;
 import cz.cvut.kbss.ear.homeLibrary.model.User;
-import cz.cvut.kbss.ear.homeLibrary.security.SecurityUtils;
-import cz.cvut.kbss.ear.homeLibrary.security.model.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Table;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -83,7 +76,7 @@ public class UserService {
     public Library createLibrary(Integer userId){
         Objects.requireNonNull(userId);
         User user = find(userId);
-        if (libraryDAO.findByUserId(user.getId()).isPresent()) {
+        if (libraryDAO.findByUserId(user.getId()) != null) {
             return null;
         }
         Library library = new Library();
@@ -93,28 +86,6 @@ public class UserService {
         userDAO.update(user);
         return library;
     }
-
-
-
-    //todo
-/*    @Transactional
-    public void addBorrowedBook(User user, BookRent bookRent){
-        Objects.requireNonNull(user);
-        Objects.requireNonNull(bookRent);
-        user.addBookRent(bookRent);
-        userDAO.save(user);
-    }*/
-
-
-    //todo
-/*    @Transactional
-    public void removeBorrowedBook(User user, BookRent bookRent){
-        Objects.requireNonNull(user);
-        Objects.requireNonNull(bookRent);
-        user.removeBookRent(bookRent);
-        userDAO.save(user);
-    }*/
-
 
     @Transactional(readOnly = true)
     public boolean emailExist(String email){

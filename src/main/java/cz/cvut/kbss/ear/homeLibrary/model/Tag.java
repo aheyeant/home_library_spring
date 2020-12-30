@@ -18,7 +18,7 @@ public class Tag extends AbstractIdentifiableObject {
     private String text;    // in mySQL: VARCHAR(255)
 
     @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
-    //@JsonIgnore
+    @JsonIgnore
     private List<Book> books;
 
 
@@ -44,5 +44,10 @@ public class Tag extends AbstractIdentifiableObject {
             return ((Tag) obj).text.equals(this.text);
         }
         throw new IllegalArgumentException("Tag::equals -> Different types");
+    }
+
+    @JsonIgnore
+    public boolean validate() {
+        return (text != null);
     }
 }

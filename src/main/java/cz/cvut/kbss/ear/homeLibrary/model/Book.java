@@ -115,13 +115,9 @@ public class Book extends AbstractIdentifiableObject {
         if (tags == null) {
             this.tags = new ArrayList<>();
         }
-/*        for (Tag t : tags) {
-            if (t.getText().equals(tag.getText())) return;
-        }*/
         tags.add(tag);
     }
 
-    //todo
     public void removeTag(Tag tag){
         Objects.requireNonNull(tag);
         if (tags == null) {
@@ -138,7 +134,6 @@ public class Book extends AbstractIdentifiableObject {
         this.rents = rents;
     }
 
-    //todo
     public void addBookRent(BookRent rent){
         Objects.requireNonNull(rent);
         if (rents == null) {
@@ -147,7 +142,6 @@ public class Book extends AbstractIdentifiableObject {
         rents.add(rent);
     }
 
-    //todo
     public void removeBookRent(BookRent rent){
         Objects.requireNonNull(rent);
         if (rents == null) {
@@ -156,9 +150,8 @@ public class Book extends AbstractIdentifiableObject {
         rents.removeIf(t -> Objects.equals(t.getId(), rent.getId()));
     }
 
-    //todo toString
-    @Override
-    public String toString() {
-        return "Book";
+    @JsonIgnore
+    public boolean validate() {
+        return (this.title != null) && (this.author != null) && (this.available != null);
     }
 }

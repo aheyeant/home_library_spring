@@ -37,7 +37,6 @@ public class User extends AbstractIdentifiableObject {
     @Enumerated(EnumType.STRING)
     private EUserRole role;
 
-    //todo
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnore
     private Library library;
@@ -109,10 +108,10 @@ public class User extends AbstractIdentifiableObject {
         return library;
     }
 
-    //todo
     public void setLibrary(Library library){
         if (library == null) {
-            throw new IllegalArgumentException("User::setLibrary(library == null)");
+            this.library = null;
+            return;
         }
         if (this.getLibrary() != null) {
             throw new IllegalArgumentException("User::setLibrary(library already exist)");
@@ -125,12 +124,10 @@ public class User extends AbstractIdentifiableObject {
         return bookRents;
     }
 
-    //todo
     public void setBookRents(List<BookRent> bookRents) {
         this.bookRents = bookRents;
     }
 
-    //todo
     public void addBookRent(BookRent bookRent){
         Objects.requireNonNull(bookRent);
         if (bookRents == null) {
@@ -139,7 +136,6 @@ public class User extends AbstractIdentifiableObject {
         bookRents.add(bookRent);
     }
 
-    //todo
     public void removeBookRent(BookRent bookRent){
         Objects.requireNonNull(bookRent);
         if (bookRents == null) {
@@ -152,12 +148,11 @@ public class User extends AbstractIdentifiableObject {
         return chats;
     }
 
-    //todo
     public void setChats(List<Chat> chats) {
         this.chats = chats;
     }
 
-    //todo
+    //todo check
     public void addChat(Chat chat){
         Objects.requireNonNull(chat);
         if (chats == null) {
@@ -166,7 +161,7 @@ public class User extends AbstractIdentifiableObject {
         chats.add(chat);
     }
 
-    //todo
+    //todo check
     public void removeChat(Chat chat){
         Objects.requireNonNull(chat);
         if (chats == null) {
@@ -183,6 +178,11 @@ public class User extends AbstractIdentifiableObject {
         user.setEmail(this.getEmail());
         user.setRole(this.getRole());
         return user;
+    }
+
+    @JsonIgnore
+    public boolean validate() {
+        return (this.firstName != null) && (this.surname != null) && (this.email != null) && (this.password != null) && (this.role != null);
     }
 
 }

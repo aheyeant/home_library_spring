@@ -1,5 +1,7 @@
 package cz.cvut.kbss.ear.homeLibrary.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -53,5 +55,8 @@ public class Message extends AbstractIdentifiableObject {
         this.chat = chat;
     }
 
-    //todo toString
+    @JsonIgnore
+    public boolean validate() {
+        return (timeStamp != null) && (text != null);
+    }
 }

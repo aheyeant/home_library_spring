@@ -1,10 +1,7 @@
 package cz.cvut.kbss.ear.homeLibrary.initializers;
 
 import cz.cvut.kbss.ear.homeLibrary.model.*;
-import cz.cvut.kbss.ear.homeLibrary.service.BookService;
-import cz.cvut.kbss.ear.homeLibrary.service.LibraryService;
-import cz.cvut.kbss.ear.homeLibrary.service.TagService;
-import cz.cvut.kbss.ear.homeLibrary.service.UserService;
+import cz.cvut.kbss.ear.homeLibrary.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +25,17 @@ public class TestBDInitializer {
 
     private final TagService tagService;
 
+    private final BookRentService bookRentService;
+
     private final PlatformTransactionManager txManager;
 
     @Autowired
-    public TestBDInitializer(UserService userService, LibraryService libraryService, BookService bookService, TagService tagService, PlatformTransactionManager txManager) {
+    public TestBDInitializer(UserService userService, LibraryService libraryService, BookService bookService, TagService tagService, BookRentService bookRentService, PlatformTransactionManager txManager) {
         this.userService = userService;
         this.libraryService = libraryService;
         this.bookService = bookService;
         this.tagService = tagService;
+        this.bookRentService = bookRentService;
         this.txManager = txManager;
     }
 
@@ -70,17 +70,13 @@ public class TestBDInitializer {
             Book book3_l3 = createTestBook(library3, "A", library3.getUser().getEmail(), "123", false);
 
 
-            Tag A = createTestTag("A");
-            Tag B = createTestTag("B");
-            Tag C = createTestTag("C");
-/*            book1_l1.addTag(A);
-            bookService.update(book1_l1);
-
-
             Tag test = new Tag();
             test.setText("A");
             book1_l1.addTag(test);
-            bookService.update(book1_l1);*/
+            bookService.update(book1_l1);
+
+            BookRent bookRent1 = createTestBookRent(user1.getId(), book1_l1, user2);
+
 /*            Tag tagA = new Tag();
             tagA.setText("A");
             book1_l1.addTag(tagA);
@@ -126,8 +122,6 @@ public class TestBDInitializer {
         book.setAuthor(author);
         book.setISBN(isbn);
         book.setAvailable(available);
-        //Date date = new SimpleDateFormat(Constants.DATE_FORMAT).format(new Date());
-
         book.setAvailableFrom(new Date());
         book.setLibrary(library);
         bookService.persist(book);
@@ -139,6 +133,18 @@ public class TestBDInitializer {
         tag.setText(text);
         tagService.persist(tag);
         return tag;
+    }
+
+    private BookRent createTestBookRent(Integer ownerId, Book book, User user) {
+        BookRent bookRent = new BookRent();
+        bookRent.setOwnerId(ownerId);
+        bookRent.setStartDate(new Date());
+        bookRent.setEndDate(new Date());
+        bookRent.setArchive(false);
+        bookRent.setBook(book);
+        bookRent.setUser(user);
+        bookRentService.persist(bookRent);
+        return bookRent;
     }
 
 }

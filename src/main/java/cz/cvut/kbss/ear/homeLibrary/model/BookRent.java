@@ -1,5 +1,6 @@
 package cz.cvut.kbss.ear.homeLibrary.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -7,10 +8,16 @@ import java.util.Date;
 
 @Entity
 @Table(name="bookrents")
+@NamedQueries({
+        @NamedQuery(name = "BookRent.findAllByBookId", query = "SELECT br FROM BookRent br WHERE br.book.id = :book_id"),
+        @NamedQuery(name = "BookRent.findAllByUserId", query = "SELECT br FROM BookRent br WHERE br.user.id = :user_id"),
+        @NamedQuery(name = "BookRent.findRentedByBookId", query = "SELECT br FROM BookRent br WHERE br.book.id = :book_id AND br.archive = false")
+
+})
 public class BookRent extends AbstractIdentifiableObject {
     @Basic(optional = false)
     @Column(nullable = false)
-    private int ownerId;
+    private Integer ownerId;
 
     @Basic(optional = false)
     @Column(nullable = false)
@@ -25,15 +32,15 @@ public class BookRent extends AbstractIdentifiableObject {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean archive;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     private Book book;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     private User user;
 
     public int getOwnerId() { return ownerId; }
 
-    public void setOwnerId(int ownerId) { this.ownerId = ownerId; }
+    public void setOwnerId(Integer ownerId) { this.ownerId = ownerId; }
 
     public Date getStartDate() {
         return startDate;
@@ -71,5 +78,8 @@ public class BookRent extends AbstractIdentifiableObject {
         this.user = user;
     }
 
-    //todo toString
+    @JsonIgnore
+    public boolean validate() {
+        return (ownerId != null) && (startDate != null) && (endDate != null);
+    }
 }

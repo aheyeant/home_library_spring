@@ -1,5 +1,7 @@
 package cz.cvut.kbss.ear.homeLibrary.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +60,7 @@ public class Chat extends AbstractIdentifiableObject {
         this.messages = messages;
     }
 
-    //todo
+    //todo check
     public void addMessage(Message message){
         Objects.requireNonNull(message);
         if (messages == null) {
@@ -68,7 +70,7 @@ public class Chat extends AbstractIdentifiableObject {
         messages.add(message);
     }
 
-    //todo
+    //todo check
     public void removeMessage(Message message){
         Objects.requireNonNull(message);
         if (messages == null) {
@@ -77,5 +79,8 @@ public class Chat extends AbstractIdentifiableObject {
         messages.removeIf(b -> Objects.equals(b.getId(), message.getId()));
     }
 
-    //todo toString
+    @JsonIgnore
+    public boolean validate() {
+        return (title != null);
+    }
 }

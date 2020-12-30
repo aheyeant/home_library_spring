@@ -1,7 +1,6 @@
-package cz.cvut.kbss.ear.homeLibrary.config.jwt;
+package cz.cvut.kbss.ear.homeLibrary.security.jwt;
 
 import cz.cvut.kbss.ear.homeLibrary.service.security.UserDetailsService;
-import lombok.extern.java.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +39,17 @@ public class JwtFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        LOG.info("do filter...");
+        //LOG.info("do filter...");
         String token = getTokenFromRequest((HttpServletRequest) servletRequest);
         if (token != null && jwtProvider.validateToken(token)) {
             String userLogin = jwtProvider.getLoginFromToken(token);
-            UserDetails userDetails = userDetailsService.loadUserByUsername(userLogin);
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(auth);
+            try {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(userLogin);
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            } catch (Exception ignored) {
+
+            }
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

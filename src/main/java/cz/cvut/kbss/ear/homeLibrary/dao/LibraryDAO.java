@@ -4,6 +4,7 @@ import cz.cvut.kbss.ear.homeLibrary.model.Book;
 import cz.cvut.kbss.ear.homeLibrary.model.Library;
 import cz.cvut.kbss.ear.homeLibrary.model.User;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
 import java.util.List;
@@ -16,22 +17,43 @@ public class LibraryDAO extends BaseDAO<Library> {
         super(Library.class);
     }
 
-    public List<Library> findAllVisible() {
+    // visible == true
+    public Library findByIdAsAnonymous(Integer id){
         try {
-            return em.createQuery("SELECT l FROM Library l WHERE l.visible", Library.class).getResultList();
+            return em.createNamedQuery("Library.findByIdAsAnonymous", Library.class).setParameter("id", id).getSingleResult();
         }
         catch (NoResultException e) {
             return null;
         }
     }
 
-    public Optional<Library> findByUserId(Integer id) {
-        Objects.requireNonNull(id);
+    // visible == (true or false)
+    public Library findByIdAsAdmin(Integer id){
         try {
-            return Optional.of(em.createNamedQuery("Library.findByUserId", Library.class).setParameter("id", id).getSingleResult());
+            return em.createNamedQuery("Library.findByIdAsAdmin", Library.class).setParameter("id", id).getSingleResult();
         }
         catch (NoResultException e) {
-            return Optional.empty();
+            return null;
+        }
+    }
+
+    // visible == true
+    public List<Library> findAllAsAnonymous(){
+        try {
+            return em.createNamedQuery("Library.findAllAsAnonymous", Library.class).getResultList();
+        }
+        catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    public Library findByUserId(Integer id) {
+        Objects.requireNonNull(id);
+        try {
+            return em.createNamedQuery("Library.findByUserId", Library.class).setParameter("id", id).getSingleResult();
+        }
+        catch (NoResultException e) {
+            return null;
         }
     }
 }

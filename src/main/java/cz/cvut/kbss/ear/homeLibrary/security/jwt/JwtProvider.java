@@ -1,10 +1,8 @@
-package cz.cvut.kbss.ear.homeLibrary.config.jwt;
+package cz.cvut.kbss.ear.homeLibrary.security.jwt;
 
-import cz.cvut.kbss.ear.homeLibrary.api.BookController;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.extern.java.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

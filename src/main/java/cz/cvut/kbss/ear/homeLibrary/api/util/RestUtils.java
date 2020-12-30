@@ -25,5 +25,15 @@ public class RestUtils {
         headers.set(HttpHeaders.LOCATION, location.toASCIIString());
         return headers;
     }
+
+    public static HttpHeaders createLocationHeaderFromHomeURI(String path, Object... uriVariableValues) {
+        assert path != null;
+
+        final URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path(path).buildAndExpand(
+                uriVariableValues).toUri();
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.LOCATION, location.toASCIIString());
+        return headers;
+    }
 }
 

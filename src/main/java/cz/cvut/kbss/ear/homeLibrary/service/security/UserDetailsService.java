@@ -1,5 +1,6 @@
 package cz.cvut.kbss.ear.homeLibrary.service.security;
 
+import cz.cvut.kbss.ear.homeLibrary.api.exceptions.NotFoundException;
 import cz.cvut.kbss.ear.homeLibrary.dao.UserDAO;
 import cz.cvut.kbss.ear.homeLibrary.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class UserDetailsService implements org.springframework.security.core.use
         // username is email
         final User user = userDAO.findByEmail(username);
         if (user == null) {
-            throw new UsernameNotFoundException("User with username " + username + " not found.");
+            throw new NotFoundException("User with username " + username + " not found.");
         }
         return new cz.cvut.kbss.ear.homeLibrary.security.model.UserDetails(user);
     }

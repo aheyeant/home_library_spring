@@ -1,8 +1,6 @@
 package cz.cvut.kbss.ear.homeLibrary.api.handlers;
 
-import cz.cvut.kbss.ear.homeLibrary.api.exceptions.NotFoundException;
-import cz.cvut.kbss.ear.homeLibrary.api.exceptions.PersistenceException;
-import cz.cvut.kbss.ear.homeLibrary.api.exceptions.AlreadyExistException;
+import cz.cvut.kbss.ear.homeLibrary.api.exceptions.*;
 import cz.cvut.kbss.ear.homeLibrary.security.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,25 +44,28 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(errorInfo(request, e), HttpStatus.NOT_FOUND);
     }
 
-
     @ExceptionHandler(AlreadyExistException.class)
     public ResponseEntity<ErrorInfo> userAlreadyExistException(HttpServletRequest request, AlreadyExistException e) {
-        //logException(e);
+        LOG.error("AlreadyExistException");
         return new ResponseEntity<>(errorInfo(request, e), HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(LibraryNullPointerException.class)
+    public ResponseEntity<ErrorInfo> libraryNullPointerException(HttpServletRequest request, LibraryNullPointerException e) {
+        LOG.error("LibraryNullPointerException");
+        return new ResponseEntity<>(errorInfo(request, e), HttpStatus.FORBIDDEN);
+    }
 
-/*    @ExceptionHandler(InsufficientAmountException.class)
-    public ResponseEntity<ErrorInfo> insufficientAmount(HttpServletRequest request, InsufficientAmountException e) {
-        logException(e);
+    @ExceptionHandler(LogicalException.class)
+    public ResponseEntity<ErrorInfo> logicalException(HttpServletRequest request, LogicalException e) {
+        LOG.error("LogicalException");
         return new ResponseEntity<>(errorInfo(request, e), HttpStatus.CONFLICT);
-    }*/
-
-/*    @ExceptionHandler(ValidationException.class)
+    }
+    @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ErrorInfo> validation(HttpServletRequest request, ValidationException e) {
-        logException(e);
+        LOG.error("ValidationException");
         return new ResponseEntity<>(errorInfo(request, e), HttpStatus.CONFLICT);
-    }*/
+    }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorInfo> accessDenied(HttpServletRequest request, AccessDeniedException e) {
@@ -77,10 +78,4 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(errorInfo(request, e), HttpStatus.FORBIDDEN);
     }
 
-
-/*    @ExceptionHandler(CartAccessException.class)
-    public ResponseEntity<ErrorInfo> cartAccessException(HttpServletRequest request, CartAccessException e) {
-        logException(e);
-        return new ResponseEntity<>(errorInfo(request, e), HttpStatus.CONFLICT);
-    }*/
 }

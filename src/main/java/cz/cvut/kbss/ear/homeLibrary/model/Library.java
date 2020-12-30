@@ -13,7 +13,10 @@ import java.util.Objects;
 @Entity
 @Table(name="libraries")
 @NamedQueries({
-        @NamedQuery(name = "Library.findByUserId", query = "SELECT l FROM Library l WHERE l.user.id = :id")
+        @NamedQuery(name = "Library.findByUserId", query = "SELECT l FROM Library l WHERE l.user.id = :id"),
+        @NamedQuery(name = "Library.findByIdAsAdmin", query = "SELECT l FROM Library l WHERE l.id = :id"),
+        @NamedQuery(name = "Library.findByIdAsAnonymous", query = "SELECT l FROM Library l WHERE l.id = :id AND l.visible = true"),
+        @NamedQuery(name = "Library.findAllAsAnonymous", query = "SELECT l FROM Library l WHERE l.visible = true"),
 })
 public class Library extends AbstractIdentifiableObject {
     @Basic(optional = false)
@@ -25,10 +28,10 @@ public class Library extends AbstractIdentifiableObject {
     private Boolean visible;
 
     @OneToOne(optional = false)
-    //@JsonIgnore
+    @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "library", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "library", fetch = FetchType.EAGER)
     //@JsonIgnore
     private List<Book> books;
 
@@ -70,8 +73,7 @@ public class Library extends AbstractIdentifiableObject {
         this.books = books;
     }
 
-    //todo
-    public void addMyBook(Book book){
+    public void addBook(Book book){
         Objects.requireNonNull(book);
         if (books == null) {
             this.books = new ArrayList<>();
@@ -79,8 +81,7 @@ public class Library extends AbstractIdentifiableObject {
         books.add(book);
     }
 
-    //todo
-    public void removeMyBook(Book book){
+    public void removeBook(Book book){
         Objects.requireNonNull(book);
         if (books == null) {
             return;
@@ -88,5 +89,9 @@ public class Library extends AbstractIdentifiableObject {
         books.removeIf(t -> Objects.equals(t.getId(), book.getId()));
     }
 
-    //todo toString
+    @JsonIgnore
+    public boolean validate() {
+        return (borrowingPeriod != null) && (visible != null);
+    }
+
 }

@@ -2,7 +2,7 @@ package cz.cvut.kbss.ear.homeLibrary.api;
 
 import cz.cvut.kbss.ear.homeLibrary.api.templates.AuthRequest;
 import cz.cvut.kbss.ear.homeLibrary.api.templates.AuthResponse;
-import cz.cvut.kbss.ear.homeLibrary.config.jwt.JwtProvider;
+import cz.cvut.kbss.ear.homeLibrary.security.jwt.JwtProvider;
 import cz.cvut.kbss.ear.homeLibrary.model.User;
 import cz.cvut.kbss.ear.homeLibrary.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +29,7 @@ public class AuthController {
     public AuthResponse auth(@RequestBody @Valid AuthRequest request) {
         User user = userService.authenticate(request.getEmail(), request.getPassword());
         String token = jwtProvider.generateToken(user.getEmail());
+
         return new AuthResponse(token);
     }
 }

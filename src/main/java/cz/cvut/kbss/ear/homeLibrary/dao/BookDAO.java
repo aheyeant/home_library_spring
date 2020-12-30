@@ -53,7 +53,6 @@ public class BookDAO extends BaseDAO<Book> {
         }
     }
 
-    //todo
     public List<Book> getBorrowedBooksFromLibrary(Integer libraryId) {
         Objects.requireNonNull(libraryId);
         try {
@@ -63,35 +62,4 @@ public class BookDAO extends BaseDAO<Book> {
         }
     }
 
-    //todo
-/*    public Optional<User> getBookOwner(Integer bookId) {
-        Objects.requireNonNull(bookId);
-        try {
-            return em.createNamedQuery("Book.getNotAvailableBooksFromLibrary", Book.class).setParameter("id", libraryId).getResultList();
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
-    }*/
-
-    //todo
-    public List<Book> findAllByTag(Tag tag) {
-        Objects.requireNonNull(tag);
-        try {
-            return em.createQuery("SELECT b FROM Book b", Book.class).getResultList(); // vymyslet jak filtrovat
-        }
-        catch (NoResultException e) {
-            return null;
-        }
-    }
-
-    //todo
-    public List<Book> findAllAvailableByTag(Tag tag) {
-        Objects.requireNonNull(tag);
-        try {
-            return em.createQuery("SELECT b FROM Book b", Book.class).getResultList(); // vymyslet jak filtrovat
-        }
-        catch (NoResultException e) {
-            return null;
-        }
-    }
 }
