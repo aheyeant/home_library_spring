@@ -1,0 +1,462 @@
+{
+	"info": {
+		"_postman_id": "c1ff36c8-4fa0-4442-aaf7-4025a77b60a7",
+		"name": "BooksHL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api/books/all",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBobC5jeiIsImV4cCI6MTYxMDU3ODgwMH0.970iaTa5vlfKO2NqWq3WE1jI_2O8xRMBXvDr-eh8oORzRSgLIufNYmVl_15eJZX1caF_pnwSEE4D97_Cy_KULA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/books/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/books/available",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/books/available",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"available"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/books/borrowed",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/books/borrowed",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"borrowed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/books/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/books/9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/books/library/{library_id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/books/library/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"library",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/books/library/available/{library_id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/books/library/available/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"library",
+						"available",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/books/library/borrowed/{library_id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/books/library/borrowed/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"library",
+						"borrowed",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/books/create",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMkBobC5jeiIsImV4cCI6MTYxMDU3ODgwMH0.os3falg6LGtN2cHoTF7Qm7HS8lZ2sQv64ctx-erguWQStIHsy7wsZZ9uu08grmUAyGdddtxERWKNVEJ8WUZ6ew",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"A\",\r\n    \"author\": \"ADSDFD\",\r\n    \"isbn\": \"123455\",\r\n    \"available\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/books/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/books/update/{id}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyZXN0VXNlckByZXN0LmN6IiwiZXhwIjoxNjEwNDkyNDAwfQ.FMN6v2BmUQB7xAcqE0PAf2VNiPtdXMRcb7gApGlXupWkA1p5HRBdjMQ_q-GwmfKFFeKbk2mxu_YA0g_eZIjqVQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"AA\",\r\n    \"author\": \"CCCC\",\r\n    \"isbn\": \"54321\",\r\n    \"available\": true,\r\n    \"availableFrom\": \"2020-11-30\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/books/update/40",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"update",
+						"40"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/books/delete/{id}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBobC5jeiIsImV4cCI6MTYxMDU3ODgwMH0.970iaTa5vlfKO2NqWq3WE1jI_2O8xRMBXvDr-eh8oORzRSgLIufNYmVl_15eJZX1caF_pnwSEE4D97_Cy_KULA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/books/delete/20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"delete",
+						"20"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/books/borrow/{id}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMkBobC5jeiIsImV4cCI6MTYxMDU3ODgwMH0.os3falg6LGtN2cHoTF7Qm7HS8lZ2sQv64ctx-erguWQStIHsy7wsZZ9uu08grmUAyGdddtxERWKNVEJ8WUZ6ew",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/books/borrow/9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"borrow",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/books/return/{id}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMkBobC5jeiIsImV4cCI6MTYxMDU3ODgwMH0.os3falg6LGtN2cHoTF7Qm7HS8lZ2sQv64ctx-erguWQStIHsy7wsZZ9uu08grmUAyGdddtxERWKNVEJ8WUZ6ew",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/books/return/9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"return",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/books/add-tag/{book_id}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBobC5jeiIsImV4cCI6MTYxMDU3ODgwMH0.970iaTa5vlfKO2NqWq3WE1jI_2O8xRMBXvDr-eh8oORzRSgLIufNYmVl_15eJZX1caF_pnwSEE4D97_Cy_KULA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"TAG3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/books/add-tag/11",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"add-tag",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/books/remove-tag/{book_id}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBobC5jeiIsImV4cCI6MTYxMDU3ODgwMH0.w6XZ0A5irjh834m3DyJ19dnR0Qc7Aq0yDQlpVep_THdO8LW40uTan9wK3zbtWKsM2RpJ2MKLcWde9lku1095EQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"TAG2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/books/remove-tag/11",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"remove-tag",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/books/tag/{tag_text}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBobC5jeiIsImV4cCI6MTYxMDU3ODgwMH0.970iaTa5vlfKO2NqWq3WE1jI_2O8xRMBXvDr-eh8oORzRSgLIufNYmVl_15eJZX1caF_pnwSEE4D97_Cy_KULA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/books/tag/a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"tag",
+						"a"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

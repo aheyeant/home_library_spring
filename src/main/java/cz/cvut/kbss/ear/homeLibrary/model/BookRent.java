@@ -33,9 +33,11 @@ public class BookRent extends AbstractIdentifiableObject {
     private boolean archive;
 
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
+    @JsonIgnore
     private Book book;
 
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
+    @JsonIgnore
     private User user;
 
     public int getOwnerId() { return ownerId; }

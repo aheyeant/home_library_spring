@@ -43,24 +43,28 @@ public class BookController {
     }
 
     //public
+    //todo filter visible
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Book> getAllBooks(){
         return bookService.findAll();
     }
 
     //public
+    //todo filter visible
     @GetMapping(value = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Book> getAvailableBooks(){
         return bookService.getAvailableBooks();
     }
 
     //public
+    //todo filter visible
     @GetMapping(value = "/borrowed", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Book> getBorrowedBooks(){
         return bookService.getBorrowedBooks();
     }
 
     //public
+    //todo filter visible
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Book getBook(@PathVariable("id") Integer id ){
         final Book book = bookService.find(id);
@@ -70,7 +74,8 @@ public class BookController {
         return book;
     }
 
-    //public
+    // admin - see all
+    // other - see only visible
     @GetMapping(value="/library/{library_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Book> getAllBooksFromLibrary(Authentication auth, @PathVariable("library_id") Integer libraryId){
         Objects.requireNonNull(libraryId);
@@ -90,7 +95,8 @@ public class BookController {
         return ret;
     }
 
-    //public
+    // admin - see all
+    // other - see only visible
     @GetMapping(value="/library/available/{library_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Book> getAvailableBooksFromLibrary(Authentication auth, @PathVariable("library_id") Integer libraryId){
         Objects.requireNonNull(libraryId);
@@ -110,7 +116,8 @@ public class BookController {
         return ret;
     }
 
-    //public
+    // admin - see all
+    // other - see only visible
     @GetMapping(value="/library/borrowed/{library_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Book> getBorrowedBooksFromLibrary(Authentication auth, @PathVariable("library_id") Integer libraryId){
         Objects.requireNonNull(libraryId);
@@ -236,6 +243,8 @@ public class BookController {
         bookService.returnBook(book);
     }
 
+    // admin - all
+    // user - current
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
     @PostMapping(value="/add-tag/{book_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addTag(Authentication auth, @PathVariable("book_id") Integer id, @RequestBody Tag tag) {
@@ -254,6 +263,8 @@ public class BookController {
         bookService.addTag(book, tag);
     }
 
+    // admin - all
+    // user - current
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
     @PostMapping(value="/remove-tag/{book_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void removeTag(Authentication auth, @PathVariable("book_id") Integer id, @RequestBody Tag tag) {

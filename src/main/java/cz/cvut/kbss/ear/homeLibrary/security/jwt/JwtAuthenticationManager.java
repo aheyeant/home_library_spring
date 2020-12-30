@@ -14,14 +14,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtAuthenticationManager {
 
-    private final LibraryDAO libraryDAO;
-
-
-    @Autowired
-    public JwtAuthenticationManager(LibraryDAO libraryDAO) {
-        this.libraryDAO = libraryDAO;
-    }
-
     public User getUserTDO(Authentication authentication) {
         if (authentication instanceof AnonymousAuthenticationToken || authentication == null) {
             throw new BadCredentialsException("Bad Credentials");

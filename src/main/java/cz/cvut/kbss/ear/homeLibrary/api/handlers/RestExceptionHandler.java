@@ -61,6 +61,7 @@ public class RestExceptionHandler {
         LOG.error("LogicalException");
         return new ResponseEntity<>(errorInfo(request, e), HttpStatus.CONFLICT);
     }
+
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ErrorInfo> validation(HttpServletRequest request, ValidationException e) {
         LOG.error("ValidationException");

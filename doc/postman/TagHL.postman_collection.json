@@ -1,0 +1,30 @@
+{
+	"info": {
+		"_postman_id": "c9257895-1296-4e06-ac92-ea0b2aac2529",
+		"name": "TagHL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api/tag/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/tag/57",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"tag",
+						"57"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

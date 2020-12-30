@@ -60,11 +60,30 @@ public class UserController {
         userService.persist(user);
         LOG.debug("User {} successfully registered.", user.getEmail());
 
-        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/" + user.getId());
+        final HttpHeaders headers = RestUtils.createLocationHeaderFromHomeURI("/api/user/" + user.getId());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_GUEST')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping(value = "/register-admin", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> registerAdmin(@RequestBody @Valid RegistrationRequest registrationRequest) {
+        if (userService.emailExist(registrationRequest.getEmail())) {
+            throw AlreadyExistException.create(User.class.getName(), registrationRequest.getEmail());
+        }
+        User user = new User();
+        user.setRole(EUserRole.ADMIN);
+        user.setFirstName(registrationRequest.getFirstName());
+        user.setSurname(registrationRequest.getSurname());
+        user.setEmail(registrationRequest.getEmail());
+        user.setPassword(registrationRequest.getPassword());
+        userService.persist(user);
+        LOG.debug("User admin {} successfully registered.", user.getEmail());
+
+        final HttpHeaders headers = RestUtils.createLocationHeaderFromHomeURI("/api/user/" + user.getId());
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping(value = "/current", produces = MediaType.APPLICATION_JSON_VALUE)
     public User getCurrent(Authentication authentication) {
         if (authentication instanceof AnonymousAuthenticationToken) {
@@ -73,9 +92,10 @@ public class UserController {
         return jwtAuthenticationManager.getUserTDO(authentication);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_GUEST')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public User getUser(@PathVariable("id") Integer id){
+        Objects.requireNonNull(id);
         User user = userService.find(id);
         if (user == null) {
             throw NotFoundException.create(User.class.getName(), id);
@@ -83,7 +103,7 @@ public class UserController {
         return user.convertTDO();
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_GUEST')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping(value="/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getUsers(){
         return userService.findAll();
@@ -100,4 +120,28 @@ public class UserController {
         return library;
     }
 
+    //todo send message
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
+    @PostMapping(value = "/send/{recipient_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void sendMessage(Authentication authentication, @PathVariable("recipient_id") Integer recipientId, @RequestBody String messageText) {
+        Objects.requireNonNull(recipientId);
+        Objects.requireNonNull(messageText);
+        Integer senderId = jwtAuthenticationManager.getUserId(authentication);
+        //todo check if chat exist
+        //todo send message
+    }
+
+
+    // todo remove chat
+    // admin - can remove all
+    // user - only current
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
+    @DeleteMapping(value = "/chat/{chat_id}")
+    public void removeChat(Authentication authentication, @PathVariable("chat_id") Integer chatId) {
+        Objects.requireNonNull(chatId);
+        //todo check if chat exist
+        //todo remove chat with all messages
+    }
+
+    //todo remove user
 }

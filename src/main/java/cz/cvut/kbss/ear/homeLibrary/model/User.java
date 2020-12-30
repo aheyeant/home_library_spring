@@ -42,10 +42,12 @@ public class User extends AbstractIdentifiableObject {
     private Library library;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<BookRent> bookRents;
 
     @ManyToMany(mappedBy = "users")
     @OrderBy("title")
+    @JsonIgnore
     private List<Chat> chats;
 
     public User() {

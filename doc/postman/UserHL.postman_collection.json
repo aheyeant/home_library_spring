@@ -1,0 +1,232 @@
+{
+	"info": {
+		"_postman_id": "5a7b4a3c-33a7-4ba2-b2da-5ff063d0742b",
+		"name": "UserHL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api/auth",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"admin@hl.cz\",\r\n    \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/user/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"restUser\",\r\n    \"surname\": \"UserRest\",\r\n    \"email\": \"restUser@rest.cz\",\r\n    \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/user/register-admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBobC5jeiIsImV4cCI6MTYxMDU3ODgwMH0.970iaTa5vlfKO2NqWq3WE1jI_2O8xRMBXvDr-eh8oORzRSgLIufNYmVl_15eJZX1caF_pnwSEE4D97_Cy_KULA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"restAdmin\",\r\n    \"surname\": \"AdminRest\",\r\n    \"email\": \"restAdmin@rest.cz\",\r\n    \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/register-admin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"register-admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/user/current",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMkBobC5jeiIsImV4cCI6MTYxMDU3ODgwMH0.os3falg6LGtN2cHoTF7Qm7HS8lZ2sQv64ctx-erguWQStIHsy7wsZZ9uu08grmUAyGdddtxERWKNVEJ8WUZ6ew",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/user/current",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"current"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/user/{id}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBobC5jeiIsImV4cCI6MTYxMDQ5MjQwMH0.uAP3ctOl4VtQI2w78lplruPaXGxr2bMIE7Li4mxUHV8iFJWNJLSyF0BIn8uM7Nxk2_i2HvfnesfjcQbDY1PqMA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/user/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/user/all",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyZXN0VXNlckByZXN0LmN6IiwiZXhwIjoxNjEwNDkyNDAwfQ.FMN6v2BmUQB7xAcqE0PAf2VNiPtdXMRcb7gApGlXupWkA1p5HRBdjMQ_q-GwmfKFFeKbk2mxu_YA0g_eZIjqVQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/user/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/user/create-library",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyZXN0VXNlckByZXN0LmN6IiwiZXhwIjoxNjEwNDkyNDAwfQ.FMN6v2BmUQB7xAcqE0PAf2VNiPtdXMRcb7gApGlXupWkA1p5HRBdjMQ_q-GwmfKFFeKbk2mxu_YA0g_eZIjqVQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/user/create-library",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"create-library"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
